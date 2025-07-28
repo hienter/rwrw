@@ -1,9 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { cn } from "@/lib/utils"
 import { StoreList } from "./store-list"
-import { getActiveStoresByBrand, getAllActiveStores } from "@/lib/stores"
+import { Filters } from "./filters"
+import { getActiveStoresByBrand, getAllActiveStores, getUniqueRegions } from "@/lib/stores"
 import { Store } from "@/lib/supabase"
 
 type Brand = "all" | "lg" | "samsung"
@@ -18,6 +19,7 @@ interface StoreDisplay {
   name: string
   eventStart: string
   eventEnd: string
+  brand?: string
 }
 
 function formatStoreForDisplay(store: Store): StoreDisplay {
@@ -25,7 +27,8 @@ function formatStoreForDisplay(store: Store): StoreDisplay {
     region: store.region,
     name: store.name,
     eventStart: store.event_start.replace(/-/g, '.'),
-    eventEnd: store.event_end.replace(/-/g, '.')
+    eventEnd: store.event_end.replace(/-/g, '.'),
+    brand: store.brand
   }
 }
 
@@ -33,35 +36,51 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
   const [activeBrand, setActiveBrand] = useState<Brand>("all")
   const [stores, setStores] = useState<StoreDisplay[]>([])
   const [loading, setLoading] = useState(true)
+  const [regions, setRegions] = useState<string[]>([])
+  const [selectedRegion, setSelectedRegion] = useState<string>("all")
+  const [sortBy, setSortBy] = useState<'click_count' | 'event_end'>('click_count')
 
-  const handleBrandChange = async (brand: Brand) => {
-    setActiveBrand(brand)
+  const loadStores = useCallback(async () => {
     setLoading(true)
-    onBrandChange?.(brand)
     
     let storeData: Store[] = []
-    if (brand === "all") {
-      storeData = await getAllActiveStores()
+    if (activeBrand === "all") {
+      storeData = await getAllActiveStores(sortBy, selectedRegion)
     } else {
-      storeData = await getActiveStoresByBrand(brand)
+      storeData = await getActiveStoresByBrand(activeBrand, sortBy, selectedRegion)
     }
     
     setStores(storeData.map(formatStoreForDisplay))
     setLoading(false)
+  }, [activeBrand, sortBy, selectedRegion])
+
+  const handleBrandChange = async (brand: Brand) => {
+    setActiveBrand(brand)
+    onBrandChange?.(brand)
+    await loadStores()
   }
 
   useEffect(() => {
     const loadInitialData = async () => {
-      setLoading(true)
-      const storeData = await getAllActiveStores()
-      setStores(storeData.map(formatStoreForDisplay))
-      setLoading(false)
+      // 지역 목록 로드
+      const regionData = await getUniqueRegions()
+      setRegions(regionData)
     }
     loadInitialData()
   }, [])
 
+  useEffect(() => {
+    loadStores()
+  }, [loadStores])
+
   const handleQuoteRequest = (store: StoreDisplay) => {
-    alert(`${store.region} ${store.name}에 견적을 요청합니다.`)
+    if (store.brand === 'samsung') {
+      window.open('https://www.samsungstore.com/customer/reserveVisitStore.sesc', '_blank')
+    } else if (store.brand === 'lg') {
+      window.open('https://bestshop.lge.co.kr/counselReserve/main/MC11420001', '_blank')
+    } else {
+      alert(`${store.region} ${store.name}에 견적을 요청합니다.`)
+    }
   }
 
   return (
@@ -104,6 +123,18 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
         </nav>
       </div>
 
+      {/* 필터 및 정렬 */}
+      <div className="mt-4">
+        <Filters
+          regions={regions}
+          selectedRegion={selectedRegion}
+          onRegionChange={setSelectedRegion}
+          sortBy={sortBy}
+          onSortChange={setSortBy}
+          showSort={true}
+        />
+      </div>
+
       <div className="mt-6">
         {loading ? (
           <div className="flex justify-center items-center py-8">
@@ -117,7 +148,7 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
                   <h3 className="text-lg font-semibold text-purple-900 mb-2">전체 매장 목록</h3>
                   <p className="text-purple-700 text-sm mb-4">현재 행사 중인 모든 매장을 확인하세요.</p>
                 </div>
-                <StoreList stores={stores} onQuoteRequest={handleQuoteRequest} />
+                <StoreList stores={stores} onQuoteRequest={handleQuoteRequest} showBrand={true} />
               </div>
             )}
             

@@ -5,15 +5,17 @@ interface Store {
   name: string
   eventStart: string
   eventEnd: string
+  brand?: string
 }
 
 interface StoreListProps {
   stores: Store[]
   className?: string
   onQuoteRequest?: (store: Store) => void
+  showBrand?: boolean
 }
 
-export function StoreList({ stores, className, onQuoteRequest }: StoreListProps) {
+export function StoreList({ stores, className, onQuoteRequest, showBrand = false }: StoreListProps) {
   return (
     <div className={`w-full ${className || ''}`}>
       {/* Desktop view */}
@@ -21,6 +23,11 @@ export function StoreList({ stores, className, onQuoteRequest }: StoreListProps)
         <table className="min-w-full divide-y divide-gray-300">
           <thead className="bg-gray-50">
             <tr>
+              {showBrand && (
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  브랜드
+                </th>
+              )}
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 지역
               </th>
@@ -38,6 +45,17 @@ export function StoreList({ stores, className, onQuoteRequest }: StoreListProps)
           <tbody className="bg-white divide-y divide-gray-200">
             {stores.map((store, index) => (
               <tr key={index} className="hover:bg-gray-50">
+                {showBrand && (
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                      store.brand === 'lg' 
+                        ? 'bg-red-100 text-red-800' 
+                        : 'bg-blue-100 text-blue-800'
+                    }`}>
+                      {store.brand === 'lg' ? 'LG' : '삼성'}
+                    </span>
+                  </td>
+                )}
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   {store.region}
                 </td>
@@ -51,9 +69,9 @@ export function StoreList({ stores, className, onQuoteRequest }: StoreListProps)
                   <Button 
                     size="sm" 
                     onClick={() => onQuoteRequest?.(store)}
-                    className="bg-red-600 hover:bg-red-700 text-white"
+                    className="bg-green-600 hover:bg-green-700 text-white"
                   >
-                    견적 요청
+                    견적 요청하기
                   </Button>
                 </td>
               </tr>
@@ -68,7 +86,18 @@ export function StoreList({ stores, className, onQuoteRequest }: StoreListProps)
           <div key={index} className="bg-white rounded-lg shadow border border-gray-200 p-4">
             <div className="flex justify-between items-start mb-3">
               <div>
-                <h4 className="font-medium text-gray-900">{store.name}</h4>
+                <div className="flex items-center gap-2 mb-1">
+                  <h4 className="font-medium text-gray-900">{store.name}</h4>
+                  {showBrand && (
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                      store.brand === 'lg' 
+                        ? 'bg-red-100 text-red-800' 
+                        : 'bg-blue-100 text-blue-800'
+                    }`}>
+                      {store.brand === 'lg' ? 'LG' : '삼성'}
+                    </span>
+                  )}
+                </div>
                 <p className="text-sm text-gray-500">{store.region}</p>
               </div>
             </div>
@@ -78,7 +107,7 @@ export function StoreList({ stores, className, onQuoteRequest }: StoreListProps)
             <Button 
               size="sm" 
               onClick={() => onQuoteRequest?.(store)}
-              className="w-full bg-red-600 hover:bg-red-700 text-white"
+              className="w-full bg-green-600 hover:bg-green-700 text-white"
             >
               견적 요청하기
             </Button>

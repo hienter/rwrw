@@ -5,11 +5,6 @@ export default function Home() {
   return (
     <Layout>
       <div className="space-y-6">
-        <div>
-          <h2 className="text-3xl font-bold text-gray-900">행사매장 모아보기</h2>
-          <p className="mt-2 text-gray-600">현재 진행 중인 가전제품 행사 매장을 한눈에 확인하세요.</p>
-        </div>
-
         {/* 중립성 안내 */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <div className="flex items-start">
@@ -19,10 +14,7 @@ export default function Home() {
               </svg>
             </div>
             <div className="ml-3">
-              <h3 className="text-sm font-medium text-blue-800">
-                🤝 중립적인 서비스 안내
-              </h3>
-              <div className="mt-2 text-sm text-blue-700">
+              <div className="text-sm text-blue-700">
                 <p className="mb-2">
                   저희는 <strong>LG나 삼성 그 어느 업체로부터도 후원이나 광고비를 받지 않습니다.</strong>
                 </p>
@@ -35,67 +27,41 @@ export default function Home() {
           </div>
         </div>
 
+        <div>
+          <h2 className="text-3xl font-bold text-gray-900">행사매장 모아보기</h2>
+          <p className="mt-2 text-gray-600">현재 진행 중인 가전제품 행사 매장을 한눈에 확인하세요.</p>
+        </div>
+
         {/* 최저가 견적 받는 방법 가이드 */}
-        <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-green-800 mb-4 flex items-center">
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
             💡 최저가 견적 받는 방법 가이드
           </h3>
           
           <div className="space-y-6">
             {/* 1단계 */}
             <div>
-              <h4 className="text-md font-medium text-green-700 mb-3">
+              <h4 className="text-md font-medium text-gray-700 mb-3">
                 1️⃣ 필요한 제품 선택하기
               </h4>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 text-sm text-green-600">
-                <span className="bg-green-100 px-2 py-1 rounded">📺 TV</span>
-                <span className="bg-green-100 px-2 py-1 rounded">❄️ 냉장고</span>
-                <span className="bg-green-100 px-2 py-1 rounded">🧺 세탁기</span>
-                <span className="bg-green-100 px-2 py-1 rounded">🌪️ 건조기</span>
-                <span className="bg-green-100 px-2 py-1 rounded">❄️ 에어컨</span>
-                <span className="bg-green-100 px-2 py-1 rounded">🧹 청소기</span>
-                <span className="bg-green-100 px-2 py-1 rounded">🤖 로봇청소기</span>
-                <span className="bg-green-100 px-2 py-1 rounded">🌬️ 공기청정기</span>
-                <span className="bg-green-100 px-2 py-1 rounded">🍽️ 식기세척기</span>
-                <span className="bg-green-100 px-2 py-1 rounded">🔥 전기레인지</span>
-                <span className="bg-green-100 px-2 py-1 rounded">📱 스마트폰</span>
-                <span className="bg-green-100 px-2 py-1 rounded">💻 PC</span>
-                <span className="bg-green-100 px-2 py-1 rounded">📱 태블릿</span>
-                <span className="bg-green-100 px-2 py-1 rounded">⌚ 웨어러블</span>
-                <span className="bg-green-100 px-2 py-1 rounded">📦 기타</span>
-              </div>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                필요한 가전을 먼저 추리고 견적을 받으시면 훨씬 빠르게 일이 진행됩니다. 모델명은 굳이 정하지 않아도 됩니다. 오히려 모델을 정하면 특가 이벤트를 놓칠수 있어서 모델은 정하지 않고 매니저와 상담해서 모델을 정하는걸 추천합니다.
+              </p>
+              <p className="text-xs text-gray-400 mt-2">
+                💡 어려우시다면 TV, 냉장고, 세탁기, 건조기, 에어컨, 시스템에어컨, 청소기, 로봇청소기, 공기청정기, 식기세척기, 전기레인지(인덕션), 정수기 중에서 골라보세요.
+              </p>
             </div>
 
             {/* 2단계 */}
             <div>
-              <h4 className="text-md font-medium text-green-700 mb-3">
-                2️⃣ 최소 3개 이상 업체에서 견적 받아 비교하기
+              <h4 className="text-md font-medium text-gray-700 mb-3">
+                2️⃣ 최소 3개 이상 업체에서 견적받기
               </h4>
-              <p className="text-sm text-green-600">
-                같은 제품이라도 업체마다 가격과 혜택이 다릅니다. 꼼꼼히 비교해보세요!
+              <p className="text-sm text-gray-600 leading-relaxed">
+                대리점, 직영점, 백화점이 가격 구조가 다르니 최소 이 3개에 견적을 받는걸 추천합니다.
               </p>
             </div>
 
-            {/* 3단계 */}
-            <div>
-              <h4 className="text-md font-medium text-green-700 mb-3">
-                3️⃣ 다양한 매장 유형에서 견적 받기 (추천)
-              </h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-                <div className="bg-green-100 p-3 rounded">
-                  <span className="font-medium text-green-800">🏢 백화점</span>
-                  <p className="text-green-600 mt-1">정품 보장, A/S 우수</p>
-                </div>
-                <div className="bg-green-100 p-3 rounded">
-                  <span className="font-medium text-green-800">🏪 대리점</span>
-                  <p className="text-green-600 mt-1">경쟁력 있는 가격</p>
-                </div>
-                <div className="bg-green-100 p-3 rounded">
-                  <span className="font-medium text-green-800">🏬 직영점</span>
-                  <p className="text-green-600 mt-1">브랜드 특별 혜택</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         

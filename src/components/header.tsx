@@ -15,11 +15,11 @@ export function Header({ className }: HeaderProps) {
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3">
-                <h1 className="text-2xl font-bold text-gray-900" style={{ letterSpacing: '-0.1em' }}>
-                  GZGZ
+                <h1 className="text-2xl font-bold italic text-gray-900" style={{ letterSpacing: '-0.2em' }}>
+                  ㄱㅈㄱㅈ
                 </h1>
-                <span className="text-sm sm:text-lg font-medium text-blue-600">
-                  가전견적 최저가로 받기
+                <span className="text-sm sm:text-lg font-medium text-gray-900">
+                  가전 구매, 더이상 호갱당하지 맙시다.
                 </span>
               </div>
             </div>

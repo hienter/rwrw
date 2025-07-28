@@ -3,6 +3,8 @@
 ## Design & Code Standards
 - Always refactor design and code to be reusable
 - Use shadcn/ui components exclusively for UI development
+- Create reusable components when similar UI patterns appear across multiple places
+- Extract common functionality into separate components to avoid code duplication
 
 ## Communication Rules
 - Always respond in Korean
