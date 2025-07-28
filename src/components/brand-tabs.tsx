@@ -74,6 +74,16 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
   }, [loadStores])
 
   const handleQuoteRequest = (store: StoreDisplay) => {
+    // Google Analytics 이벤트 추적
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'quote_request', {
+        brand: store.brand,
+        store_name: store.name,
+        store_region: store.region,
+        event_category: 'engagement'
+      })
+    }
+
     if (store.brand === 'samsung') {
       window.open('https://www.samsungstore.com/customer/reserveVisitStore.sesc', '_blank')
     } else if (store.brand === 'lg') {
