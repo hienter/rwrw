@@ -74,25 +74,38 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
   }, [loadStores])
 
   const handleQuoteRequest = async (store: StoreDisplay) => {
-    // 클릭 수 증가
-    await incrementClickCount(store.name, store.region)
-    
-    // Google Analytics 이벤트 추적
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'quote_request', {
-        brand: store.brand,
-        store_name: store.name,
-        store_region: store.region,
-        event_category: 'engagement'
-      })
-    }
+    try {
+      // 클릭 수 증가
+      await incrementClickCount(store.name, store.region)
+      
+      // 데이터 새로고침 (클릭 후 바로 반영)
+      await loadStores()
+      
+      // Google Analytics 이벤트 추적
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'quote_request', {
+          brand: store.brand,
+          store_name: store.name,
+          store_region: store.region,
+          event_category: 'engagement'
+        })
+      }
 
-    if (store.brand === 'samsung') {
-      window.open('https://www.samsungstore.com/customer/reserveVisitStore.sesc', '_blank')
-    } else if (store.brand === 'lg') {
-      window.open('https://bestshop.lge.co.kr/counselReserve/main/MC11420001', '_blank')
-    } else {
-      alert(`${store.region} ${store.name}에 견적을 요청합니다.`)
+      if (store.brand === 'samsung') {
+        window.open('https://www.samsungstore.com/customer/reserveVisitStore.sesc', '_blank')
+      } else if (store.brand === 'lg') {
+        window.open('https://bestshop.lge.co.kr/counselReserve/main/MC11420001', '_blank')
+      } else {
+        alert(`${store.region} ${store.name}에 견적을 요청합니다.`)
+      }
+    } catch (error) {
+      console.error('Error handling quote request:', error)
+      // 에러가 발생해도 링크는 열어줌
+      if (store.brand === 'samsung') {
+        window.open('https://www.samsungstore.com/customer/reserveVisitStore.sesc', '_blank')
+      } else if (store.brand === 'lg') {
+        window.open('https://bestshop.lge.co.kr/counselReserve/main/MC11420001', '_blank')
+      }
     }
   }
 
