@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { StoreList } from "./store-list"
-import { getStoresByBrand } from "@/lib/stores"
+import { getActiveStoresByBrand } from "@/lib/stores"
 import { Store } from "@/lib/supabase"
 
 type Brand = "lg" | "samsung"
@@ -39,7 +39,7 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
     setLoading(true)
     onBrandChange?.(brand)
     
-    const storeData = await getStoresByBrand(brand)
+    const storeData = await getActiveStoresByBrand(brand)
     setStores(storeData.map(formatStoreForDisplay))
     setLoading(false)
   }
@@ -47,7 +47,7 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
   useEffect(() => {
     const loadInitialData = async () => {
       setLoading(true)
-      const storeData = await getStoresByBrand("lg")
+      const storeData = await getActiveStoresByBrand("lg")
       setStores(storeData.map(formatStoreForDisplay))
       setLoading(false)
     }
