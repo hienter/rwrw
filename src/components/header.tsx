@@ -14,8 +14,14 @@ export function Header({ className }: HeaderProps) {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-gray-900">GZGZ</h1>
-              <p className="text-sm text-gray-600">가전견적</p>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3">
+                <h1 className="text-2xl font-bold text-gray-900" style={{ letterSpacing: '-0.1em' }}>
+                  GZGZ
+                </h1>
+                <span className="text-sm sm:text-lg font-medium text-blue-600">
+                  가전견적 최저가로 받기
+                </span>
+              </div>
             </div>
           </div>
         </div>
