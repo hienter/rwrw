@@ -12,6 +12,7 @@ export interface Store {
   name: string
   event_start: string
   event_end: string
+  click_count: number
   created_at: string
   updated_at: string
 }

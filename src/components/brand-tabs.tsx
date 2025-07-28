@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react"
 import { cn } from "@/lib/utils"
 import { StoreList } from "./store-list"
 import { Filters } from "./filters"
-import { getActiveStoresByBrand, getAllActiveStores, getUniqueRegions } from "@/lib/stores"
+import { getActiveStoresByBrand, getAllActiveStores, getUniqueRegions, incrementClickCount } from "@/lib/stores"
 import { Store } from "@/lib/supabase"
 
 type Brand = "all" | "lg" | "samsung"
@@ -73,7 +73,10 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
     loadStores()
   }, [loadStores])
 
-  const handleQuoteRequest = (store: StoreDisplay) => {
+  const handleQuoteRequest = async (store: StoreDisplay) => {
+    // 클릭 수 증가
+    await incrementClickCount(store.name, store.region)
+    
     // Google Analytics 이벤트 추적
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'quote_request', {

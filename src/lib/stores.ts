@@ -101,3 +101,31 @@ export async function getUniqueRegions(): Promise<string[]> {
   const uniqueRegions = [...new Set(data?.map(item => item.region) || [])]
   return uniqueRegions
 }
+
+export async function incrementClickCount(storeName: string, region: string): Promise<void> {
+  // 먼저 현재 클릭 수를 조회
+  const { data: currentStore, error: fetchError } = await supabase
+    .from('stores')
+    .select('click_count')
+    .eq('name', storeName)
+    .eq('region', region)
+    .single()
+
+  if (fetchError) {
+    console.error('Error fetching current click count:', fetchError)
+    return
+  }
+
+  // 클릭 수 증가
+  const { error: updateError } = await supabase
+    .from('stores')
+    .update({ 
+      click_count: (currentStore?.click_count || 0) + 1
+    })
+    .eq('name', storeName)
+    .eq('region', region)
+
+  if (updateError) {
+    console.error('Error incrementing click count:', updateError)
+  }
+}
