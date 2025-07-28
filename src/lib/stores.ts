@@ -25,8 +25,7 @@ export async function getAllActiveStores(sortBy: 'click_count' | 'event_end' = '
   let query = supabase
     .from('stores')
     .select('*')
-    .lte('event_start', today) // 행사 시작일이 오늘 이전이거나 오늘
-    .gte('event_end', today)   // 행사 종료일이 오늘 이후
+    .gte('event_end', today)   // 행사 종료일이 오늘 이후 (시작 전이어도 노출)
 
   // 지역 필터 적용
   if (regionFilter && regionFilter !== 'all') {
@@ -59,8 +58,7 @@ export async function getActiveStoresByBrand(brand: string, sortBy: 'click_count
     .from('stores')
     .select('*')
     .eq('brand', brand)
-    .lte('event_start', today) // 행사 시작일이 오늘 이전이거나 오늘
-    .gte('event_end', today)   // 행사 종료일이 오늘 이후
+    .gte('event_end', today)   // 행사 종료일이 오늘 이후 (시작 전이어도 노출)
 
   // 지역 필터 적용
   if (regionFilter && regionFilter !== 'all') {
