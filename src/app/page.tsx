@@ -34,6 +34,70 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* 최저가 견적 받는 방법 가이드 */}
+        <div className="bg-green-50 border border-green-200 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-green-800 mb-4 flex items-center">
+            💡 최저가 견적 받는 방법 가이드
+          </h3>
+          
+          <div className="space-y-6">
+            {/* 1단계 */}
+            <div>
+              <h4 className="text-md font-medium text-green-700 mb-3">
+                1️⃣ 필요한 제품 선택하기
+              </h4>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 text-sm text-green-600">
+                <span className="bg-green-100 px-2 py-1 rounded">📺 TV</span>
+                <span className="bg-green-100 px-2 py-1 rounded">❄️ 냉장고</span>
+                <span className="bg-green-100 px-2 py-1 rounded">🧺 세탁기</span>
+                <span className="bg-green-100 px-2 py-1 rounded">🌪️ 건조기</span>
+                <span className="bg-green-100 px-2 py-1 rounded">❄️ 에어컨</span>
+                <span className="bg-green-100 px-2 py-1 rounded">🧹 청소기</span>
+                <span className="bg-green-100 px-2 py-1 rounded">🤖 로봇청소기</span>
+                <span className="bg-green-100 px-2 py-1 rounded">🌬️ 공기청정기</span>
+                <span className="bg-green-100 px-2 py-1 rounded">🍽️ 식기세척기</span>
+                <span className="bg-green-100 px-2 py-1 rounded">🔥 전기레인지</span>
+                <span className="bg-green-100 px-2 py-1 rounded">📱 스마트폰</span>
+                <span className="bg-green-100 px-2 py-1 rounded">💻 PC</span>
+                <span className="bg-green-100 px-2 py-1 rounded">📱 태블릿</span>
+                <span className="bg-green-100 px-2 py-1 rounded">⌚ 웨어러블</span>
+                <span className="bg-green-100 px-2 py-1 rounded">📦 기타</span>
+              </div>
+            </div>
+
+            {/* 2단계 */}
+            <div>
+              <h4 className="text-md font-medium text-green-700 mb-3">
+                2️⃣ 최소 3개 이상 업체에서 견적 받아 비교하기
+              </h4>
+              <p className="text-sm text-green-600">
+                같은 제품이라도 업체마다 가격과 혜택이 다릅니다. 꼼꼼히 비교해보세요!
+              </p>
+            </div>
+
+            {/* 3단계 */}
+            <div>
+              <h4 className="text-md font-medium text-green-700 mb-3">
+                3️⃣ 다양한 매장 유형에서 견적 받기 (추천)
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                <div className="bg-green-100 p-3 rounded">
+                  <span className="font-medium text-green-800">🏢 백화점</span>
+                  <p className="text-green-600 mt-1">정품 보장, A/S 우수</p>
+                </div>
+                <div className="bg-green-100 p-3 rounded">
+                  <span className="font-medium text-green-800">🏪 대리점</span>
+                  <p className="text-green-600 mt-1">경쟁력 있는 가격</p>
+                </div>
+                <div className="bg-green-100 p-3 rounded">
+                  <span className="font-medium text-green-800">🏬 직영점</span>
+                  <p className="text-green-600 mt-1">브랜드 특별 혜택</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         
         <BrandTabs />
       </div>
