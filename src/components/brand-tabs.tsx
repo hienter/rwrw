@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { StoreList } from "./store-list"
-import { getActiveStoresByBrand } from "@/lib/stores"
+import { getActiveStoresByBrand, getAllActiveStores } from "@/lib/stores"
 import { Store } from "@/lib/supabase"
 
-type Brand = "lg" | "samsung"
+type Brand = "all" | "lg" | "samsung"
 
 interface BrandTabsProps {
   className?: string
@@ -30,7 +30,7 @@ function formatStoreForDisplay(store: Store): StoreDisplay {
 }
 
 export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
-  const [activeBrand, setActiveBrand] = useState<Brand>("lg")
+  const [activeBrand, setActiveBrand] = useState<Brand>("all")
   const [stores, setStores] = useState<StoreDisplay[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -39,7 +39,13 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
     setLoading(true)
     onBrandChange?.(brand)
     
-    const storeData = await getActiveStoresByBrand(brand)
+    let storeData: Store[] = []
+    if (brand === "all") {
+      storeData = await getAllActiveStores()
+    } else {
+      storeData = await getActiveStoresByBrand(brand)
+    }
+    
     setStores(storeData.map(formatStoreForDisplay))
     setLoading(false)
   }
@@ -47,7 +53,7 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
   useEffect(() => {
     const loadInitialData = async () => {
       setLoading(true)
-      const storeData = await getActiveStoresByBrand("lg")
+      const storeData = await getAllActiveStores()
       setStores(storeData.map(formatStoreForDisplay))
       setLoading(false)
     }
@@ -63,6 +69,17 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
       <div className="border-b border-gray-200">
         <nav className="-mb-px flex space-x-8">
           <button
+            onClick={() => handleBrandChange("all")}
+            className={cn(
+              "py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap",
+              activeBrand === "all"
+                ? "border-purple-500 text-purple-600"
+                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+            )}
+          >
+            전체보기
+          </button>
+          <button
             onClick={() => handleBrandChange("lg")}
             className={cn(
               "py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap",
@@ -71,7 +88,7 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
                 : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             )}
           >
-            LG
+            LG 베스트샵
           </button>
           <button
             onClick={() => handleBrandChange("samsung")}
@@ -82,7 +99,7 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
                 : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             )}
           >
-            삼성
+            삼성스토어
           </button>
         </nav>
       </div>
@@ -94,11 +111,21 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
           </div>
         ) : (
           <>
+            {activeBrand === "all" && (
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-purple-900 mb-2">전체 매장 목록</h3>
+                  <p className="text-purple-700 text-sm mb-4">현재 행사 중인 모든 매장을 확인하세요.</p>
+                </div>
+                <StoreList stores={stores} onQuoteRequest={handleQuoteRequest} />
+              </div>
+            )}
+            
             {activeBrand === "lg" && (
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-red-900 mb-2">LG 지점 목록</h3>
-                  <p className="text-red-700 text-sm mb-4">행사 기간 중인 LG 지점을 확인하세요.</p>
+                  <h3 className="text-lg font-semibold text-red-900 mb-2">LG 베스트샵 목록</h3>
+                  <p className="text-red-700 text-sm mb-4">행사 기간 중인 LG 베스트샵을 확인하세요.</p>
                 </div>
                 <StoreList stores={stores} onQuoteRequest={handleQuoteRequest} />
               </div>
@@ -107,8 +134,8 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
             {activeBrand === "samsung" && stores.length > 0 && (
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-900 mb-2">삼성 지점 목록</h3>
-                  <p className="text-blue-700 text-sm mb-4">행사 기간 중인 삼성 지점을 확인하세요.</p>
+                  <h3 className="text-lg font-semibold text-blue-900 mb-2">삼성스토어 목록</h3>
+                  <p className="text-blue-700 text-sm mb-4">행사 기간 중인 삼성스토어를 확인하세요.</p>
                 </div>
                 <StoreList stores={stores} onQuoteRequest={handleQuoteRequest} />
               </div>
@@ -116,8 +143,8 @@ export function BrandTabs({ className, onBrandChange }: BrandTabsProps) {
             
             {activeBrand === "samsung" && stores.length === 0 && (
               <div className="p-4 bg-blue-50 rounded-lg">
-                <h3 className="text-lg font-semibold text-blue-900">삼성 가전제품</h3>
-                <p className="text-blue-700 mt-2">현재 등록된 삼성 지점이 없습니다.</p>
+                <h3 className="text-lg font-semibold text-blue-900">삼성스토어</h3>
+                <p className="text-blue-700 mt-2">현재 등록된 삼성스토어가 없습니다.</p>
               </div>
             )}
           </>

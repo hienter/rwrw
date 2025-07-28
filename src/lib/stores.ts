@@ -19,19 +19,20 @@ export async function getStoresByBrand(brand: string): Promise<Store[]> {
   return data || []
 }
 
-export async function getAllStores(): Promise<Store[]> {
+export async function getAllActiveStores(): Promise<Store[]> {
   const today = new Date().toISOString().split('T')[0] // YYYY-MM-DD 형식
   
   const { data, error } = await supabase
     .from('stores')
     .select('*')
-    .gte('event_end', today) // 행사 종료일이 오늘 이후인 것만
+    .lte('event_start', today) // 행사 시작일이 오늘 이전이거나 오늘
+    .gte('event_end', today)   // 행사 종료일이 오늘 이후
     .order('brand')
     .order('region')
     .order('name')
 
   if (error) {
-    console.error('Error fetching stores:', error)
+    console.error('Error fetching all active stores:', error)
     return []
   }
 
